@@ -1,0 +1,29 @@
+<h1>{{ question.question_text }}</h1>
+
+<!-- <a href="{% url 'polls:results' question.id %}"  >РЕЗУЛЬТАТЫ</a> -->
+
+
+
+<!-- Тут будут варианты ответов -->
+
+{% if error_message %}
+	<p>
+		<strong>{{ error_massage }}</strong>
+	</p>
+{% endif %}
+
+<h2> Проголосуйте за ответ </h2>
+<form action=" {% url 'polls:vote' question.id %}" method="post">
+	{% csrf_token %}  <!-- это защита от межсайтового скриптинга -->
+	{% for choice in question.choice_set.all %}
+		<input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}"/>
+		<label for="choice {{ forloop.counter }}">
+			{{ choice.choice_text }}
+		</label>
+		<br>
+		<hr>
+	{% endfor %}
+	<input type = "submit" value="Голосовать"/>
+</form>
+
+
